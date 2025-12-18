@@ -28,12 +28,12 @@ export default function ActivityForm({activity,closeForm,submitForm}:Props) {
         Create Activity
     </Typography>
     <Box component='form'onSubmit={handleSubmit} display='flex' flexDirection='column' gap={3}>
-        <TextField name = 'title' label='Title' value={activity?.title}/>
-        <TextField name = 'description' label='Description' multiline rows={3}/>
-        <TextField name = 'category' label='Category'/>
-        <TextField name = 'date' label='Date' type="date"/>
-        <TextField name = 'city' label='City'/>
-        <TextField name = 'venue' label='Venue'/>
+        <TextField name = 'title' label='Title' defaultValue={activity?.title}/>
+        <TextField name = 'description' label='Description' defaultValue={activity?.description} multiline rows={3}/>
+        <TextField name = 'category' label='Category' defaultValue={activity?.category}/>
+        <TextField name = 'date' label='Date' type="date" defaultValue={activity?.date}/>
+        <TextField name = 'city' label='City' defaultValue={activity?.city}/>
+        <TextField name = 'venue' label='Venue' defaultValue={activity?.venue}/>
         <Box display='flex' justifyContent='end' gap={3}>
         <Button onClick={closeForm} color='inherit'>Cancel</Button>
         <Button type="submit" color='success' variant="contained">Submit</Button>
