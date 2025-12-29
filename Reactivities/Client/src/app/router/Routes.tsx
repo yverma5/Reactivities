@@ -6,20 +6,30 @@ import ActivityDetailsPage from "../../feature/activities/details/ActivityDetail
 import ActivityDashboard from "../../feature/activities/dashboard/ActivityDashboard";
 import NotFound from "../../feature/errors/NotFound";
 import ServerError from "../../feature/errors/ServerError";
+import LoginForm from "../../feature/account/LoginForm";
+import RequireAuth from "./RequireAuth";
+import RegisterForm from "../../feature/account/RegisterForm";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
         children: [
+            {
+                element: <RequireAuth />, children: [
+                    { path: 'activities', element: <ActivityDashboard /> },
+                    { path: 'activities/:id', element: <ActivityDetailsPage /> },
+                    { path: 'createActivity', element: <ActivityForm key='create' /> },
+                    { path: 'manage/:id', element: <ActivityForm /> },
+
+                ]
+            },
             { path: '', element: <HomePage /> },
-            { path: 'activities', element: <ActivityDashboard /> },
-            { path: 'activities/:id', element: <ActivityDetailsPage /> },
-            { path: 'createActivity', element: <ActivityForm key='create' /> },
-            { path: 'manage/:id', element: <ActivityForm /> },
             { path: 'not-found', element: <NotFound /> },
             { path: 'serve-error', element: <ServerError /> },
-            { path: '*', element: <Navigate replace to='not-found'/> },
+            { path: 'login', element: <LoginForm /> },
+            { path: 'register', element: <RegisterForm /> },
+            { path: '*', element: <Navigate replace to='not-found' /> },
 
 
 
