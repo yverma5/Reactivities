@@ -9,10 +9,14 @@ using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Application.Interfaces;
+using Infrastructure.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers(opt=>
 {
@@ -21,9 +25,6 @@ builder.Services.AddControllers(opt=>
     .Build();
     opt.Filters.Add(new AuthorizeFilter(policy));
 });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -37,6 +38,7 @@ builder.Services.AddMediatR(x =>
     x.AddOpenBehavior(typeof(ValidationBehaviour<,>));
 
 });
+builder.Services.AddScoped<IUserAccessor,UserAccessor>();
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 builder.Services.AddValidatorsFromAssemblyContaining<CreateActivityValidator>();
 builder.Services.AddTransient<ExceptionMiddleware>();
@@ -45,6 +47,18 @@ builder.Services.AddIdentityApiEndpoints<User>(opt =>
     opt.User.RequireUniqueEmail = true;
 }).AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddAuthorization(opt => 
+{
+    opt.AddPolicy("IsActivityHost", policy =>
+    {
+        policy.Requirements.Add(new IsHostRequirement());
+    });
+});
+builder.Services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
+
+
+
+
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
