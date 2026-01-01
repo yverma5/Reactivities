@@ -1,4 +1,4 @@
- type Activity= {
+type Activity = {
   id: string
   title: string
   date: Date
@@ -9,16 +9,29 @@
   venue: string
   latitude: number
   longitude: number
+  attendes: Profile[]
+  isGoing: boolean
+  isHost: boolean
+  hostDisplayName: string
+  hostId: string
 }
 
-type User={
-  id:string
-  email:string
-  displayName:string
-  imageurl?:string
+type Profile = {
+  id: string
+  displayName: string
+  imageurl?: string
+  bio?: string
 }
 
- type LoactionIQSuggestion= {
+
+type User = {
+  id: string
+  email: string
+  displayName: string
+  imageurl?: string
+}
+
+type LoactionIQSuggestion = {
   place_id: string
   osm_id: string
   osm_type: string
@@ -34,7 +47,7 @@ type User={
   address: LocationIQAddress
 }
 
- type LocationIQAddress = {
+type LocationIQAddress = {
   name: string
   city?: string
   state?: string
