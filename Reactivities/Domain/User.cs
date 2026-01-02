@@ -11,6 +11,7 @@ public class User: IdentityUser
 
     //navigation property
 
-    public ICollection<ActivityAttendee> Activities { get; set; }
+    public ICollection<ActivityAttendee> Activities { get; set; } = [];
+    public ICollection<Photo> Photos { get; set; } = [];
 
 }
