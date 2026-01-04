@@ -15,14 +15,27 @@ export default function ProfileCard({profile}:Props) {
       <Card sx={{ borderRadius:3,padding:2, maxWidth:300, textDecoration:'none'}} 
       elevation={4}>
         <CardMedia component='img' 
-        src={profile?.imageurl || '/images/user.png'}
-        sx={{width:200, zIndex:50}}
+        src={profile?.imageUrl || '/images/user.png'}
+        sx={{width:'100%', zIndex:50}}
         alt={profile.displayName+ 'image'}
         
         />
        <CardContent>
-        <Box display='flex' alignItems='center' gap={1}>
+        <Box display='flex' flexDirection='column' gap={1}>
             <Typography variant="h5">{profile.displayName}</Typography>
+            {profile?.bio && (
+              <Typography 
+              variant="body2"
+              sx={{
+                textOverflow:'ellipsis',
+                overflow:'hidden',
+                whiteSpace:'nowrap'
+              }}
+              >
+                {profile?.bio}
+
+              </Typography>
+            )}
             {isFollowing &&<Chip size="small" label="Following" color="secondary" variant="outlined"/>}
         </Box>
       </CardContent>
