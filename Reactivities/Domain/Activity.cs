@@ -18,6 +18,7 @@
         //navigation property
 
         public ICollection<ActivityAttendee> Attendes { get; set; } = [];
+        public ICollection<Comment> Comments { get; set; } = [];
     }
 
 
