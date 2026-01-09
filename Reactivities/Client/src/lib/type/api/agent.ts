@@ -22,47 +22,48 @@ agent.interceptors.request.use(config => {
 
 agent.interceptors.response.use(
     async response => {
-     sleep(1000);
-     store.uiStore.isIdle();
+        if (import.meta.env.DEV)  sleep(1000);
+        store.uiStore.isIdle();
         return response;
-},
-async error=>{
-    sleep(1000);
-     store.uiStore.isIdle();
-    
-    const{status,data}=error.response;
-    switch (status) {
-        case 400:
-            if(data.errors){
-                const modalStateErrors=[];
-                for(const key in data.errors){
-                    if(data.errors[key]){
-                        modalStateErrors.push(data.errors[key]);
+    },
+    async error => {
+        if (import.meta.env.DEV)  sleep(1000);
+
+        store.uiStore.isIdle();
+
+        const { status, data } = error.response;
+        switch (status) {
+            case 400:
+                if (data.errors) {
+                    const modalStateErrors = [];
+                    for (const key in data.errors) {
+                        if (data.errors[key]) {
+                            modalStateErrors.push(data.errors[key]);
+                        }
                     }
+                    throw modalStateErrors.flat();
+
+                } else {
+                    toast.error(data);
                 }
-                throw modalStateErrors.flat();
+                break;
+            case 401:
+                toast.error('UnAuthorized')
+                break;
+            case 404:
+                router.navigate('/not-found')
+                break;
+            case 500:
+                router.navigate('/server-error', { state: { error: data } })
+                break;
 
-            }else{
-                toast.error(data);
-            }
-            break;
-        case 401:
-            toast.error('UnAuthorized')
-            break;
-        case 404:
-            router.navigate('/not-found')
-            break;
-        case 500:
-            router.navigate('/server-error',{state:{error:data}})
-            break;
-    
-        default:
-            break;
+            default:
+                break;
+        }
+
+        return Promise.reject(error);
+
     }
-
-     return Promise.reject(error);
-
-}
 );
 
 export default agent;
