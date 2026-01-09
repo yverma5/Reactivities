@@ -1,4 +1,5 @@
 ﻿using Application.Profiles.Commands;
+using Application.Profiles.Queries;
 using Application.Profiles.Query;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,5 +54,12 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(command));
         }
+        [HttpGet("{userId}/activities")]
+        public async Task<IActionResult> GetUserActivities(string userId, string filter)
+        {
+            return HandleResult(await Mediator.Send(new GetUserActivities.Query
+            { UserId = userId, Filter = filter }));
+        }
+
     }
 }

@@ -3,6 +3,7 @@ import { useState, type SyntheticEvent } from "react";
 import ProfilePhotos from "./ProfilePhotos";
 import ProfileAbout from "./ProfileAbout";
 import ProfileFollowings from "./ProfileFollowings";
+import ProfileActivities from "./ProfileActivities";
 
 export default function ProfileContent() {
 
@@ -13,11 +14,11 @@ export default function ProfileContent() {
   }
 
   const tabContent = [
-    { label: 'About', content: <ProfileAbout/> },
-    { label: 'Photos', content: <ProfilePhotos/> },
-    { label: 'Events', content: <div>Events Content</div> },
-    { label: 'Followers', content: <ProfileFollowings activeTabs={value}/> },
-    { label: 'Following', content: <ProfileFollowings activeTabs={value}/> },
+    { label: 'About', content: <ProfileAbout /> },
+    { label: 'Photos', content: <ProfilePhotos /> },
+    { label: 'Events', content: <ProfileActivities /> },
+    { label: 'Followers', content: <ProfileFollowings activeTabs={value} /> },
+    { label: 'Following', content: <ProfileFollowings activeTabs={value} /> },
 
   ]
   return (
